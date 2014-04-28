@@ -1,0 +1,58 @@
+<!-- discussion.html -->
+{% extends "base_activity.html" %}
+{% load staticfiles %}
+
+{% block contentwrap %}
+	<!-- {{ block.super }} -->
+	<h1 class="page-header">{{ video.title }}</h1>
+	
+    <!-- {{ video.video_upload.url }} -->
+    <div class='row'>
+    	<div class='col-xs-8 col-xs-offset-2'>
+			<a style="display:block;width:100%;height:492px;" id="player"> </a>
+		</div>
+	</div>
+
+	<script language="JavaScript">
+	// flowplayer("player", "http://releases.flowplayer.org/swf/flowplayer-3.2.18.swf");
+	flowplayer("player", "http://releases.flowplayer.org/swf/flowplayer-3.2.18.swf",  {
+    // this will enable pseudostreaming support
+    plugins: {
+        pseudo: {
+            url: "flowplayer.pseudostreaming-3.2.13.swf"
+        }
+    },
+    // clip properties
+    clip: {
+        // these two settings will make the first frame visible
+        autoPlay: false,
+        autoBuffering: true,
+        // locate a good looking first frame with the start parameter
+        start: 1,
+        scaling: 'fit',
+        // make this clip use pseudostreaming plugin with "provider" property
+        provider: 'pseudo',
+        // this is our video file. our server supports pseudostreaming
+        url: '{{ video.video_upload.url }}'
+    }
+	});
+	</script>
+    
+    <div class='row'>
+	<div class='col-xs-8 col-xs-offset-2'>
+		<p class="sub-header"><span class="text-muted">{{ video.instructions }}</span></p>
+		{% for post in video.posts.all %}
+			<p>{{ post.creator }}</p>
+			<p>{{ post.created }}</p>
+			<p>{{ post.text }} </p>
+		{% empty %}
+			<p>There are no posts to display. :(</p>
+		{% endfor %}
+	</div>
+	</div>
+
+{% endblock contentwrap %}
+
+{% block stylesheets %} 
+<script src="{% static "js/flowplayer.min.js" %}"></script>
+{% endblock stylesheets%}

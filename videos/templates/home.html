@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block contentwrap %}
+
+<h2 class="sub-header">Current Categories</h2>
+
+<div class="row placeholders">
+	{% for category in category_list %}
+		<div class="col-xs-6 col-sm-3 col-lg-2 placeholder">
+		  <img src="{% static "img/CLTicon2013-300x294.jpg"%}" class="img-responsive" alt="Generic placeholder ">
+		  <a href="{{ category.get_absolute_url }}"><h3>{{ category.nickname }}</h3></a>
+		  <span class="text-muted">{{ category.title }}</span>
+		</div>
+	{% empty %}
+    	<p>There are no categories that are current.</p>
+	{% endfor %}
+</div>
+
+<h2 class="sub-header">Membership Request Pending</h2>
+
+<h2 class="sub-header">Deactivated categories</h2>
+
+
+{% endblock contentwrap %}
+
