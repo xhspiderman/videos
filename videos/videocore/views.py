@@ -1,6 +1,8 @@
 # core/views.py
 from django.shortcuts import render, get_object_or_404
 
+from braces.views import LoginRequiredMixin, CsrfExemptMixin
+
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic import DetailView, CreateView
@@ -15,7 +17,7 @@ def login_view(request):
 	return render(request, 'signin.html', {})
 
 # Class Based Views
-class HomeView(CategoryListMixin,TemplateView):
+class HomeView(LoginRequiredMixin, CategoryListMixin,TemplateView):
 	template_name = 'home.html'
 
 class CategoryIndexView(CategoryListMixin, VideoListMixin, DetailView):
