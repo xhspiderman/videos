@@ -8,7 +8,7 @@ from django.views.generic.list import ListView
 from django.views.generic import DetailView, CreateView
 from django.views.generic.edit import FormView
 
-from videocore.mixins import CategoryListMixin, VideoListMixin, CreateVideoMixin
+from videocore.mixins import CategoryListMixin, VideoListMixin, CreateVideoMixin, PrevNextMixin
 
 from .models import Video, Category, Channel
 
@@ -67,7 +67,7 @@ class ChannelAddView(ChannelCreateView):
 		return self.object.collection.get_absolute_url()
 	
 
-class VideoDetailView(CategoryListMixin, VideoListMixin, DetailView):
+class VideoDetailView(CategoryListMixin, VideoListMixin, PrevNextMixin, DetailView):
     model = Video
     context_object_name = 'video'
     template_name = 'video.html'

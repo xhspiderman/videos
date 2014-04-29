@@ -52,8 +52,8 @@ class Video(models.Model):
     channel = models.ForeignKey(
         Channel, blank=True, null=True, on_delete=models.SET_NULL)
     display_order = models.IntegerField(default=0)
-    created = models.DateTimeField(auto_now_add=True, null=True)
-    modified = models.DateTimeField(auto_now=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     posts = models.ManyToManyField(Post, null=True, blank=True)
 

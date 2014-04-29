@@ -8,34 +8,45 @@
 	
     <!-- {{ video.video_upload.url }} -->
     <div class='row'>
-    	<div class='col-xs-8 col-xs-offset-2'>
-			<a style="display:block;width:100%;height:492px;" id="player"> </a>
+<!--         <div class='col-xs-2'>
+            <div class='row text-center'  style="float: none; vertical-align: middle;"><i class="fa fa-angle-left fa-5x"></i> </div>
+        </div> -->
+    	<div class='col-xs-12'>
+            <div class='col-xs-2 children text-center pointerDiv' style='opacity:0.1;'>
+                {% if previous %}<i class="fa fa-angle-left fa-5x previousTrigger" style='cursor:pointer;'></i>{% endif %}
+                    <!-- <li><a href={% if previous %}"{% url 'video' previous.id %}"{% endif %}>Prev</a></li> -->
+            </div>
+            <div class='col-xs-8'><div class='row' id='myElement'></div></div>
+            <div class='col-xs-2 children text-center pointerDiv' style='opacity:0.1;'> 
+                {% if next %} <i class="fa fa-angle-right fa-5x nextTrigger" style='cursor:pointer;'></i>{% endif %}
+                    <!-- <li><a href={% if next %}"{% url 'video' next.id %}"{% endif %}>Next</a></li> -->
+            </div>
 		</div>
 	</div>
 
 	<script language="JavaScript">
-	// flowplayer("player", "http://releases.flowplayer.org/swf/flowplayer-3.2.18.swf");
-	flowplayer("player", "http://releases.flowplayer.org/swf/flowplayer-3.2.18.swf",  {
-    // this will enable pseudostreaming support
-    plugins: {
-        pseudo: {
-            url: "flowplayer.pseudostreaming-3.2.13.swf"
+
+    jwplayer("myElement").setup({
+        file: "{{ video.video_upload.url }}",
+        // image: "{% static "img/white.png" %}",
+        autostart: true,
+        width: "100%",
+        aspectratio: "16:9"
+    });
+    var initialPause = 1
+    jwplayer('myElement').onTime(function(time){
+        if(initialPause==1){
+            jwplayer('myElement').pause()
+            initialPause =0
         }
-    },
-    // clip properties
-    clip: {
-        // these two settings will make the first frame visible
-        autoPlay: false,
-        autoBuffering: true,
-        // locate a good looking first frame with the start parameter
-        start: 1,
-        scaling: 'fit',
-        // make this clip use pseudostreaming plugin with "provider" property
-        provider: 'pseudo',
-        // this is our video file. our server supports pseudostreaming
-        url: '{{ video.video_upload.url }}'
-    }
-	});
+    })
+    // var initialPause = 1
+    // jwplayer('myElement').onPlay(function(){
+    //    if(initialPause==1){
+    //         jwplayer('myElement').pause()
+    //         initialPause=0
+    //    }
+    // })
 	</script>
     
     <div class='row'>
@@ -54,5 +65,7 @@
 {% endblock contentwrap %}
 
 {% block stylesheets %} 
-<script src="{% static "js/flowplayer.min.js" %}"></script>
+<script src="http://jwpsrv.com/library/RJueXGxbEeOB1SIACi0I_Q.js"></script>
+ <script src="{% static "js/video.js" %}"></script>
+<link href="{% static "css/video.css" %}" rel="stylesheet">
 {% endblock stylesheets%}

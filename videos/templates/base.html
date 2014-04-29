@@ -9,10 +9,13 @@
 
     <!-- Bootstrap -->
     <link href="{% static "bootstrap/dist/css/bootstrap.min.css" %}" rel="stylesheet">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="{% static "font-awesome-4.0.3/css/font-awesome.min.css" %}">
 
     <!-- Extensions - Experimenting with these -->
     <!-- <link href="{% static "css/base.css" %}" rel="stylesheet"> -->
-    
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
     <!-- The Bootstrap template named "Starter Template barebones " -->
     <link href="{% static "css/dashboard.css" %}" rel="stylesheet">
     {% block stylesheets %} {% endblock stylesheets%}
@@ -86,8 +89,7 @@
       </div>
     </div><!-- /.container-fluid -->
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://code.jquery.com/jquery.js"></script>
+
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{% static "bootstrap/dist/js/bootstrap.min.js" %}"></script>
 
