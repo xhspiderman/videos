@@ -10,7 +10,74 @@
     -webkit-transform :translateY(50%);
     -o-transform:translateY(50%);
 }
-
+/*
 .pointerDiv:hover{
     opacity:0.95;
+}*/
+.chat
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
+
+.comment
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+}
+
+.commentlist
+{   
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 5px;
+    padding: 5px;
+    border: 1px solid #EFEFEF;
+    box-shadow: 0px 0px 0px #888888;
+}
+
+.chatlist
+{   
+    margin-top: 14px;
+    margin-bottom: 3px;
+    padding: 5px;
+    border: 1px solid #EFEFEF;
+    box-shadow: 1px 2px 0px #888888;
+}
+
+li.left .chat-body
+{
+    margin-left: 60px;
+}
+
+li.right .chat-body
+{
+    margin-right: 60px;
+}
+
+
+/*.chat li .chat-body p
+{
+    margin: 0;
+    color: #777777;
+}
+*/
+.panel .slidedown .glyphicon, .chat .glyphicon
+{
+    margin-right: 5px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+#postTextarea{
+  /*width:98%;*/
+  height:110px;
+  padding: 5px;
+  overflow:auto;
+}
+

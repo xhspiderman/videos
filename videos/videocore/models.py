@@ -31,7 +31,7 @@ class Channel(models.Model):
 class Post(models.Model):
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True, null=True)
-    creator = models.ForeignKey(User)
+    creator = models.ForeignKey(User, blank=True, null=True)
     parent_post = models.ForeignKey('self', blank=True, null=True)
     audio_URL = models.URLField(max_length=200, blank=True, null=True)
 
@@ -56,6 +56,7 @@ class Video(models.Model):
     modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     posts = models.ManyToManyField(Post, null=True, blank=True)
+    creator = models.ForeignKey(User, blank=True, null=True)
 
     def get_siblings(self):
         return self.objects.filter(collection=self.collection).order_by("display_order")

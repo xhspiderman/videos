@@ -4,32 +4,24 @@
 
 {% block contentwrap %}
 	<!-- {{ block.super }} -->
-	<h1 class="page-header">{{ video.title }}</h1>
-	
-    <!-- {{ video.video_upload.url }} -->
+	<h1 class="page-header">{{ video.title }} {% if video.creator %}<small class="text-muted"><small><i class="fa fa-user"></i> {{video.creator.username}}  &nbsp;&nbsp;<i class="fa fa-clock-o"></i>{{video.modified}}</small> </small>{% endif %}</h1>
     <div class='row'>
-<!--         <div class='col-xs-2'>
-            <div class='row text-center'  style="float: none; vertical-align: middle;"><i class="fa fa-angle-left fa-5x"></i> </div>
-        </div> -->
     	<div class='col-xs-12'>
             <div class='col-xs-2 children text-center pointerDiv' style='opacity:0.1;'>
-                {% if previous %}<i class="fa fa-angle-left fa-5x previousTrigger" style='cursor:pointer;'></i>{% endif %}
-                    <!-- <li><a href={% if previous %}"{% url 'video' previous.id %}"{% endif %}>Prev</a></li> -->
+                {% if previous %}<i class="fa fa-angle-left fa-5x previousTrigger" style='cursor:pointer;' data-previousurl="{% url 'video' previous.id %}"></i>{% endif %}
             </div>
             <div class='col-xs-8'><div class='row' id='myElement'></div></div>
             <div class='col-xs-2 children text-center pointerDiv' style='opacity:0.1;'> 
-                {% if next %} <i class="fa fa-angle-right fa-5x nextTrigger" style='cursor:pointer;'></i>{% endif %}
-                    <!-- <li><a href={% if next %}"{% url 'video' next.id %}"{% endif %}>Next</a></li> -->
+                {% if next %} <i class="fa fa-angle-right fa-5x nextTrigger" style='cursor:pointer;' data-nexturl="{% url 'video' next.id %}"></i>{% endif %}
             </div>
 		</div>
 	</div>
 
 	<script language="JavaScript">
-
     jwplayer("myElement").setup({
         file: "{{ video.video_upload.url }}",
         // image: "{% static "img/white.png" %}",
-        autostart: true,
+        autostart: false,
         width: "100%",
         aspectratio: "16:9"
     });
@@ -52,13 +44,89 @@
     <div class='row'>
 	<div class='col-xs-8 col-xs-offset-2'>
 		<p class="sub-header"><span class="text-muted">{{ video.instructions }}</span></p>
-		{% for post in video.posts.all %}
+<!-- 		{% for post in video.posts.all %}
 			<p>{{ post.creator }}</p>
 			<p>{{ post.created }}</p>
 			<p>{{ post.text }} </p>
 		{% empty %}
 			<p>There are no posts to display. :(</p>
-		{% endfor %}
+		{% endfor %} -->
+        <div>
+            <form role="form">{% csrf_token %}
+            <input id='activityUSER' type="hidden" name="activityUSERs" value='{{ user }}'> 
+            <input id='videoID' type="hidden" name="videoIdentity" value='{{ video.id }}'> 
+            <textarea id='postTextarea' class="form-control" ></textarea>
+            <div class="input-group full-width">
+            <button id='sendPost' type="button" class="btn btn-default btn-xs full-width" value='{% url "save_post" %}'><span class="glyphicon glyphicon-send"></span> send</button>
+            </div>
+            </form>
+        </div>
+        <div id='posts'>
+                 <ul id='posts2' class="chat">
+                    {% for post in video.posts.all reversed%}
+                        
+                        {% if not post.parent_post %}
+
+                            <!-- Other's posts -->
+                            <li class="left clearfix chatlist" data-postid={{post.id}}>
+                            <span class="chat-img pull-left">
+                                <img src="{% static "img/user_icon.png" %}" width=50 height=50 alt={{ post.creator }} class="img-circle img-responsive" />
+                            </span>
+                                <div class="chat-body clearfix">
+                                    <div class="header">
+                                        <strong class="primary-font">{{ post.creator|capfirst }}</strong> <small class="pull-right text-muted">
+                                            <span class="glyphicon glyphicon-time"></span>{{ post.created }}</small>
+                                    </div>
+                                    <p>
+                                        {{ post.text|safe }}
+                                    </p>
+<!--                                     {% if post.get_documents %}
+                                    <p class="attachDIV well " style="padding:8px;">
+                                        {% for document in post.get_documents %}
+                                        <span><a class="fileLink text-muted" href="{{ document.accessURL }}"  ><i class="icon-file-alt"></i> {{ document }} </a></span>
+                                        {% endfor %}
+                                    </p>
+                                    {% endif %}  -->
+                                </div>
+                            </li>
+                            <!-- Comment Section for posts -->
+                            <div>
+                                <ul class="comment">
+                                {% for post2 in video.posts.all reversed%}
+                                    {% if post2.parent_post == post %}
+                                    <li class="left clearfix commentlist" data-postid={{post2.id}}>
+                                        <span class="chat-img pull-left">
+                                            <img src="{% static "img/user_icon.png" %}" width=50 height=50 alt={{ post2.creator }} class="img-circle  img-responsive" />
+                                        </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">{{ post2.creator|capfirst }}</strong> <small class="pull-right text-muted">
+                                                    <span class="glyphicon glyphicon-time"></span>{{ post2.created }}</small>
+                                            </div>
+                                            <p>
+                                                {{ post2.text|safe }}
+                                            </p>
+                                        </div>
+                                    </li>
+                                    {% endif %}
+                                {% endfor %}
+                                    <li class="left clearfix commentlist">
+                                        <span class="chat-img pull-left">
+                                            <img src="{% static "img/user_icon.png" %}" width=50 height=50 alt={{ user.username }} class="img-circle  img-responsive" />
+                                        </span>
+                                        <div class="chat-body clearfix">
+                                            <textarea class="form-control" rows="2"></textarea>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+                            <!--End of Comment Section-->
+
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+        </div>
 	</div>
 	</div>
 

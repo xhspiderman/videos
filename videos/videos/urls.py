@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
-from videocore.views import HomeView, CategoryIndexView, CategoryCreateView, ChannelCreateView, ChannelAddView, VideoCreateView, VideoDetailView
+from videocore.views import HomeView, CategoryIndexView, CategoryCreateView, ChannelCreateView, ChannelAddView, VideoCreateView, VideoDetailView, savePost
 
 urlpatterns = patterns('',
     
@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^channel/add2/(?P<addpk>\d+)$',        ChannelAddView.as_view(), name='add_channel'),
     url(r'^video/(?P<pk>\d+)$', 	    VideoDetailView.as_view(), name='video'),
     url(r'^video/add/(?P<pk>\d+)$',  VideoCreateView.as_view(), name='create_video'),
+    url(r'^post/save/$',savePost, name='save_post'),
     
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),

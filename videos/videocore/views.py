@@ -1,5 +1,6 @@
 # core/views.py
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect, HttpResponse
 
 from braces.views import LoginRequiredMixin, CsrfExemptMixin
 
@@ -10,7 +11,7 @@ from django.views.generic.edit import FormView
 
 from videocore.mixins import CategoryListMixin, VideoListMixin, CreateVideoMixin, PrevNextMixin
 
-from .models import Video, Category, Channel
+from .models import Video, Category, Channel, Post
 
 # Simple function-based-view #
 def login_view(request):
@@ -90,4 +91,29 @@ class VideoCreateView(CategoryListMixin, CreateVideoMixin, CreateView):
         # Auto set the following fields:
         form.instance.collection = get_object_or_404(
             Category, pk=self.kwargs['pk'])
+        form.instance.creator=self.request.user
         return super(VideoCreateView, self).form_valid(form)
+
+# Save Post
+def savePost(request):
+    # import pdb
+    # pdb.set_trace()
+    if request.method == 'POST':
+        postuser = request.user
+        textcontent = request.POST.get("text", '')
+        # video to assign post to
+        videoID = request.POST.get("videoID", '')
+        parentPost = request.POST.get("parentID", '')
+        #  validation and save
+        if len(textcontent) > 0:
+            mess = Post(text=textcontent, creator = request.user)
+        if request.POST.get('parentID', '') != '':
+            mess.parent_post = Post.objects.get(pk=parentPost)
+        if request.POST.get('audio_URL', '') != '':
+            mess.audio_URL = request.POST.get('audio', '')
+        mess.save()
+         #  save mess with that activity
+        if videoID:
+        	Video.objects.filter(id=videoID)[0].posts.add(mess)
+        
+    return HttpResponse("Post Success")
