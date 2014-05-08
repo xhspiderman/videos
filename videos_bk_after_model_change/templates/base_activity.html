@@ -1,0 +1,45 @@
+<!-- base_activity.html -->
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block activitynav %} 
+	<!-- CONTEXT MENU - Activities --> 
+    <li class="dropdown">
+              <a data-toggle="dropdown" class="dropdown-toggle" href="#">More <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+
+                {% for video_item in video_list %}
+
+                {% ifchanged video_item.channel %}
+                <li><a href=""><span class="text-primary ">{{ video_item.channel.title }}</span></a></li>
+                {% endifchanged %}
+
+                    <li><a href="{{video_item.get_absolute_url}}"><small>{{video_item.title}}</small></a></li>
+
+                {% endfor %}
+
+			    <li class="divider"></li>
+			    {% if category %}
+			      <li><a href="{% url 'home' %}">videos home</a></li>
+			      <li><a href="{% url 'create_channel' category.id %}"><small><span class="glyphicon glyphicon-plus-sign"></span> New Channel</small></a></li>
+            <li><a href="{% url 'create_video' category.id %}"><small><span class="glyphicon glyphicon-plus-sign"></span> New Video</small></a></li>
+			    {% endif %}
+              </ul>
+    </li>
+
+{% endblock activitynav %}
+
+{% block video_item_list %} 
+	    {% for video_item in video_list %}
+	      	<li {% if video_item.id == video.id %} class="bg-primary" {% endif %}><a href="{{ video_item.get_absolute_url }}">{{ video_item.title }}</a></li>
+	    {% endfor %}
+{% endblock video_item_list %}
+
+{% block category_button_label %} {{ category.nickname }} {% endblock category_button_label %}
+
+{% block contentwrap %}
+
+	<h1 class="page-header">{{ video.title }}</h1>
+	<p class="sub-header"><span class="text-muted">{{ video.instructions }}</span></p>
+
+{% endblock contentwrap %}

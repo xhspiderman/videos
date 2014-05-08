@@ -1,0 +1,100 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Engineering Videos</title>
+
+    <!-- Bootstrap -->
+    <link href="{% static "bootstrap/dist/css/bootstrap.min.css" %}" rel="stylesheet">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="{% static "font-awesome-4.0.3/css/font-awesome.min.css" %}">
+
+    <!-- Extensions - Experimenting with these -->
+    <!-- <link href="{% static "css/base.css" %}" rel="stylesheet"> -->
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- The Bootstrap template named "Starter Template barebones " -->
+    <!-- <link href="{% static "css/dashboard.css" %}" rel="stylesheet"> -->
+    {% block stylesheets %} {% endblock stylesheets%}
+  
+  </head>
+  <body>
+    {% block navbar %}
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'home' %}">Engineering Videos(+ICON): </a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            
+          </ul>
+
+
+          <!-- CONTEXT MENU -->
+          <ul class="nav navbar-nav navbar-right">
+          {% block activitynav %} <!-- CONTEXT MENU - Activities --> {% endblock activitynav %}
+
+          {% block coursenav %}
+          <!-- CONTEXT MENU - Courses -->
+          
+            <li class="dropdown">
+              <a href="." class="dropdown-toggle" data-toggle="dropdown"> {% block course_button_label %} Channels <b class="caret"></b>{% endblock course_button_label %}</a>
+              <ul class="dropdown-menu">
+              {% block channel_item_list %} 
+                {% for channel_item in channel_list %}
+                  <li {% if channel_item == channel %} class="bg-primary" {% endif %}><a href="{{ channel_item.get_absolute_url }}">{{ channel_item.title }}</a></li>
+                {% endfor %}
+              {% endblock channel_item_list %}
+              <li class="divider"></li>
+              <li><a href="{% url 'create_channel' %}">+Add Channel</a></li> 
+              <li><a href="{% url 'create_video' %}">+Add Video</a></li> 
+              </ul>              
+            </li>
+          
+          {% endblock coursenav %}
+            <li class="dropdown">
+            {% if not user.is_authenticated %}
+              <a href="{% url 'login' %}" class="dropdown-toggle"> login </a>
+            {% else %}            
+              <a href="." class="dropdown-toggle" data-toggle="dropdown"> {{ user.username }}</a>            
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'logout' %}">logout</a></li>
+              </ul>
+            </li>
+            {% endif %}
+          </ul>
+          <!-- End of CONTEXT MENU ITEMS -->
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    {% endblock navbar %}
+
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          {% block contentwrap %}{% endblock contentwrap %}
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static "bootstrap/dist/js/bootstrap.min.js" %}"></script>
+
+    {% block more_javascript %} {% endblock more_javascript %}
+
+  </body>
+</html>

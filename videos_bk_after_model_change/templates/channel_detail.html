@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block contentwrap %}
+
+<h2 class="sub-header">Videos in {{channel.title}}</h2>
+
+<div class="row placeholders">
+	{% for video in channel.get_channel_videos %}
+			<h4 class="page-header">{{ video.title }} {% if video.creator %}<small class="text-muted"><small><i class="fa fa-user"></i> {{video.creator.username}}  &nbsp;&nbsp;<i class="fa fa-clock-o"></i>{{video.modified}}</small> </small>{% endif %}</h4>
+		    <div class='row'>
+		    	<div class='col-xs-12'>
+                    <div class='row' id='video_{{video.id}}'></div>
+				</div>
+			</div>
+
+            
+			<script language="JavaScript" defer>
+		    jwplayer("video_{{video.id}}").setup({
+		        file: "{{ video.video_upload.url }}",
+		        // image: "{% static "img/white.png" %}",
+		        autostart: true,
+		        width: "100%",
+		        skin:"{% static "jwplayer-skins/five.xml" %}",
+		        aspectratio: "16:9"
+		    });
+		    var initialPause = 1
+		    jwplayer("{{video.id}}").onTime(function(time){
+		        if(initialPause==1){
+		            jwplayer("{{video.id}}").pause()
+		            initialPause =0
+		        }
+		    })
+			</script>
+	{% empty %}
+    	<p>There are no videos in this channel.</p>
+	{% endfor %}
+</div>
+
+
+{% endblock contentwrap %}
+
