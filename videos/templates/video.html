@@ -21,8 +21,9 @@
     jwplayer("myElement").setup({
         file: "{{ video.video_upload.url }}",
         // image: "{% static "img/white.png" %}",
-        autostart: false,
+        autostart: true,
         width: "100%",
+        skin:"{% static "jwplayer-skins/five.xml" %}",
         aspectratio: "16:9"
     });
     var initialPause = 1
@@ -43,7 +44,7 @@
     
     <div class='row'>
 	<div class='col-xs-8 col-xs-offset-2'>
-		<p class="sub-header"><span class="text-muted">{{ video.instructions }}</span></p>
+		<p class="sub-header"><span class="text-muted">{{ video.description }}</span></p>
 <!-- 		{% for post in video.posts.all %}
 			<p>{{ post.creator }}</p>
 			<p>{{ post.created }}</p>
@@ -55,9 +56,9 @@
             <form role="form">{% csrf_token %}
             <input id='activityUSER' type="hidden" name="activityUSERs" value='{{ user }}'> 
             <input id='videoID' type="hidden" name="videoIdentity" value='{{ video.id }}'> 
-            <textarea id='postTextarea' class="form-control" ></textarea>
+            <textarea id='postTextarea' class="form-control" style='border-radius:4px 4px 0px 0px;'></textarea>
             <div class="input-group full-width">
-            <button id='sendPost' type="button" class="btn btn-default btn-xs full-width" value='{% url "save_post" %}'><span class="glyphicon glyphicon-send"></span> send</button>
+            <button id='sendPost' type="button" class="btn btn-default btn-xs full-width" value='{% url "save_post" %}' style='border-radius:0px 0px 4px 4px;'><span class="glyphicon glyphicon-send"></span> send</button>
             </div>
             </form>
         </div>
@@ -129,7 +130,7 @@
         </div>
 	</div>
 	</div>
-
+<br>
 {% endblock contentwrap %}
 
 {% block stylesheets %} 
