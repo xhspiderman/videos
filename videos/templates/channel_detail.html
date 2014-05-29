@@ -6,38 +6,40 @@
 
 <h2 class="sub-header">Videos in {{channel.title}}</h2>
 
-<div class="row placeholders">
 	{% for video in channel.get_channel_videos %}
-			<h4 class="page-header">{{ video.title }} {% if video.creator %}<small class="text-muted"><small><i class="fa fa-user"></i> {{video.creator.username}}  &nbsp;&nbsp;<i class="fa fa-clock-o"></i>{{video.modified}}</small> </small>{% endif %}</h4>
-		    <div class='row'>
-		    	<div class='col-xs-12'>
-                    <div class='row' id='video_{{video.id}}'></div>
-				</div>
-			</div>
-
+	        {% with video.id|slugify as videoID %}
+	        {% with "video"|add:videoID as videoDiv %}
             
-			<script language="JavaScript" defer>
-		    jwplayer("video_{{video.id}}").setup({
+	<h2 class="page-header"><a href="{{video.get_absolute_url}}" class="text-muted" style='text-decoration:none; color:black;padding:5px;'>{{ video.title }}</a> {% if video.creator %}<small class="text-muted"><small><i class="fa fa-user"></i> {{video.creator.username}}  &nbsp;&nbsp;<i class="fa fa-clock-o"></i>{{video.modified}}</small> </small>{% endif %}</h2>
+    <div class='row' >
+            <div class='col-xs-2 children text-center pointerDiv' style='opacity:0.1;'>
+                {% if previous %}<i class="fa fa-angle-left fa-5x previousTrigger" style='cursor:pointer;' data-previousurl="{% url 'video' previous.id %}"></i>{% endif %}
+            </div>
+            <div class='col-xs-8 video_div' data-videoDiv="{{videoDiv}}"><div class='row' id="{{videoDiv}}"></div></div>
+            <div class='col-xs-2 children text-center pointerDiv' style='opacity:0.1;'> 
+                {% if next %} <i class="fa fa-angle-right fa-5x nextTrigger" style='cursor:pointer;' data-nexturl="{% url 'video' next.id %}"></i>{% endif %}
+            </div>
+	</div>
+            
+			<script>
+		    jwplayer("{{videoDiv}}").setup({
 		        file: "{{ video.video_upload.url }}",
-		        // image: "{% static "img/white.png" %}",
-		        autostart: true,
+		        autostart: false,
 		        width: "100%",
 		        skin:"{% static "jwplayer-skins/five.xml" %}",
 		        aspectratio: "16:9"
 		    });
-		    var initialPause = 1
-		    jwplayer("{{video.id}}").onTime(function(time){
-		        if(initialPause==1){
-		            jwplayer("{{video.id}}").pause()
-		            initialPause =0
-		        }
-		    })
 			</script>
+			{% endwith %}
+			{% endwith %}
 	{% empty %}
     	<p>There are no videos in this channel.</p>
 	{% endfor %}
-</div>
-
 
 {% endblock contentwrap %}
-
+{% block stylesheets %} 
+<script src="http://jwpsrv.com/library/RJueXGxbEeOB1SIACi0I_Q.js"></script>
+<script src="{% static "js/jquery-ui.js" %}"></script>
+<script src="{% static "js/jquery-ui-scrollable.js" %}"></script>
+<script src="{% static "js/channelDetail.js" %}"></script>
+{% endblock stylesheets%}

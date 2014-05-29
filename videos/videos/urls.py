@@ -6,7 +6,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 # from videocore.views import HomeView, CategoryIndexView, CategoryCreateView, ChannelCreateView, ChannelAddView, VideoCreateView, VideoDetailView, savePost
-from videocore.views import HomeView, ChannelCreateView, ChannelDetailView, ChannelAddView, VideoDetailView, VideoCreateView, savePost
+from videocore.views import HomeView, ChannelCreateView, ChannelDetailView, ChannelAddView, VideoDetailView, VideoCreateView, savePost#, UserCreateView
 
 urlpatterns = patterns('',
     
@@ -20,5 +20,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),
+    # url(r'^register/$',  UserCreateView.as_view(), name='create_user'),
     url(r'^$', HomeView.as_view(), name='home'),
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

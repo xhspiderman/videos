@@ -1,6 +1,8 @@
 # core/views.py
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 from braces.views import LoginRequiredMixin, CsrfExemptMixin
 
@@ -10,13 +12,20 @@ from django.views.generic import DetailView, CreateView
 from django.views.generic.edit import FormView
 
 # from videocore.mixins import CategoryListMixin, VideoListMixin, CreateVideoMixin, PrevNextMixin
-from videocore.mixins import ChannelListMixin, VideoListMixin, PrevNextMixin
-from .models import Video,  Channel, Post#,Category
+from videocore.mixins import ChannelListMixin, VideoListMixin, PrevNextMixin, AllVideoMixin
+from .models import Video,  Channel, Post
 
 # Class Based Views
-class HomeView(LoginRequiredMixin, ChannelListMixin,TemplateView):
+class HomeView(LoginRequiredMixin, ChannelListMixin, AllVideoMixin,TemplateView):
 	template_name = 'home.html'
 
+# class UserCreateView(CreateView):
+#     model = User
+#     template_name = 'user_create.html'
+#     fields = ['username', 'password', 'email']
+
+#     def get_success_url(self):
+#         return reverse('home') 
 
 class ChannelCreateView(ChannelListMixin, CreateView):
 	model = Channel

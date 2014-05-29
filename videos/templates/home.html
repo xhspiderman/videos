@@ -3,21 +3,97 @@
 
 
 {% block contentwrap %}
+<!-- facebook share library -->
+<!-- <div id="fb-root"></div> -->
+<!--<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>-->
+<!-- facebook share library -->
 
 <h2 class="sub-header">Current Channels</h2>
-
+{% comment %}
 <div class="row placeholders">
 	{% for channel in channel_list %}
 		<div class="col-xs-6 col-sm-3 col-lg-2 placeholder">
 		  <img src="{% static "img/CLTicon2013-300x294.jpg"%}" class="img-responsive" alt="Generic placeholder ">
 		  <a href="{{ channel.get_absolute_url }}"><h3>{{ channel.title }}</h3></a>
-		  <!-- <span class="text-muted">{{ category.title }}</span> -->
 		</div>
 	{% empty %}
     	<p>There are no channels that are current.</p>
 	{% endfor %}
 </div>
 
+<div id="{{post.audio_URL|cut:"."}}" class='audioDiv'></div>
+<script>
+	jwplayer("{{post.audio_URL|cut:"."}}").setup({
+	        file: "{{recorder_myServer}}{{recorder_myDirectory}}/{{post.audio_URL}}",
+	        width: "100%",
+	        skin: "{% static "jwplayer-skins/five.xml" %}",
+	        height: 30
+	    });
+</script> 
+
+{% endcomment %}
+
+
+	{% for video in all_videos %}
+	        {% with video.id|slugify as videoID %}
+	        {% with "video"|add:videoID as videoDiv %}
+            
+	<h2 class="page-header"><a href="{{video.get_absolute_url}}" class="text-muted" style='text-decoration:none; color:black;padding:5px;'>{{ video.title }}</a> {% if video.creator %}<small class="text-muted"><small><i class="fa fa-user"></i> {{video.creator.username}}  &nbsp;&nbsp;<i class="fa fa-clock-o"></i>{{video.modified}}</small> </small>{% endif %}</h2>
+    <div class='row' >
+            <div class='col-xs-2 children text-center pointerDiv' style='opacity:0.1;'>
+                {% if previous %}<i class="fa fa-angle-left fa-5x previousTrigger" style='cursor:pointer;' data-previousurl="{% url 'video' previous.id %}"></i>{% endif %}
+            </div>
+            <div class='col-xs-8 video_div' data-videoDiv="{{videoDiv}}">
+            	<div class='row' id="{{videoDiv}}"></div>
+            </div>
+            <div class='col-xs-2 children text-center pointerDiv' style='opacity:0.1;'> 
+                {% if next %} <i class="fa fa-angle-right fa-5x nextTrigger" style='cursor:pointer;' data-nexturl="{% url 'video' next.id %}"></i>{% endif %}
+            </div>
+	</div>
+	<div class='row'>
+	<div class='col-xs-8 col-xs-offset-2'>
+		    {% with video.get_channels as videoChannels %}
+			{% if videoChannels %}
+	            <span>&nbsp;&nbsp;</span>
+	            {% for singleChannel in videoChannels %}
+	                <span class="text-muted"># <a class='text-muted' href="{{singleChannel.get_absolute_url}}">{{singleChannel.title}}</a></span>
+	            {% endfor %}
+	        {% endif %}
+	        {% endwith %}
+         <!--    <span class="fb-share-button" data-href="{{video.get_absolute_url}}" data-width="250" data-type="button"></span>
+        	<span style="position:relative;top:5px;"><a href="https://twitter.com/share" class="twitter-share-button" data-count="none" data-url="{{video.get_absolute_url}}" data-text="{{ video.title }}">Tweet</a></span> -->
+        	<a class="btn btn-xs btn-default"  style="width:55px;height:20px;color:#999;"  href="{{video.get_absolute_url|add:"#postTextarea"}}"><i class="fa fa-comment"></i></a>
+    </div>
+	</div>
+
+			<!-- <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script> -->
+			<script>
+		    jwplayer("{{videoDiv}}").setup({
+		        file: "{{ video.video_upload.url }}",
+		        autostart: false,
+		        width: "100%",
+		        skin:"{% static "jwplayer-skins/five.xml" %}",
+		        aspectratio: "16:9"
+		    });
+			</script>
+			{% endwith %}
+			{% endwith %}
+
+	{% empty %}
+    	<p>There are no videos in this channel.</p>
+	{% endfor %}
+
 
 {% endblock contentwrap %}
-
+{% block stylesheets %} 
+<script src="http://jwpsrv.com/library/RJueXGxbEeOB1SIACi0I_Q.js"></script>
+<script src="{% static "js/jquery-ui.js" %}"></script>
+<script src="{% static "js/jquery-ui-scrollable.js" %}"></script>
+<script src="{% static "js/home.js" %}"></script>
+{% endblock stylesheets%}

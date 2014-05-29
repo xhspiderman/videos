@@ -48,6 +48,9 @@ class Video(models.Model):
     def get_siblings(self):
         return self.objects.filter(channel=self.channel).order_by("display_order")
 
+    def get_channels(self):
+        return self.channel.all().order_by("id","display_order")
+
     def get_absolute_url(self):
         return reverse('video', args=[str(self.id)])
 

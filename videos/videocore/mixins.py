@@ -10,6 +10,13 @@ class ChannelListMixin(object):
 	    context['channel_list'] = Channel.objects.all().order_by("display_order")
  	    return context
 
+class AllVideoMixin(object):
+
+	def get_context_data(self, **kwargs):
+	    context = super(AllVideoMixin, self).get_context_data(**kwargs)
+	    context['all_videos'] = Video.objects.all().order_by("display_order", "-modified")
+ 	    return context
+
 class VideoListMixin(object):
 	
 	def get_context_data(self, **kwargs):
