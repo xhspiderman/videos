@@ -10,7 +10,7 @@
 	        {% with video.id|slugify as videoID %}
 	        {% with "video"|add:videoID as videoDiv %}
             
-	<h2 class="page-header"><a href="{{video.get_absolute_url}}" class="text-muted" style='text-decoration:none; color:black;padding:5px;'>{{ video.title }}</a> {% if video.creator %}<small class="text-muted"><small><i class="fa fa-user"></i> {{video.creator.username}}  &nbsp;&nbsp;<i class="fa fa-clock-o"></i>{{video.modified}}</small> </small>{% endif %}</h2>
+	<h2 class="page-header"><a href="{{video.get_absolute_url}}" class="text-muted" style='text-decoration:none; color:black;padding:5px;'>{{ video.title }}</a> {% if video.creator %}<small class="text-muted"><small><i class="fa fa-user"></i> {{video.creator.username}}  &nbsp;&nbsp;<i class="fa fa-clock-o"></i>{{video.modified}}{% if user == video.creator %}&nbsp;&nbsp;<a href="{% url 'edit_video' video.id %}" class="text-muted" style='text-decoration:none;'><i class="fa fa-pencil-square-o"></i></a>{% endif %}</small> </small>{% endif %}</h2>
     <div class='row' >
             <div class='col-xs-2 children text-center pointerDiv' style='opacity:0.1;'>
                 {% if previous %}<i class="fa fa-angle-left fa-5x previousTrigger" style='cursor:pointer;' data-previousurl="{% url 'video' previous.id %}"></i>{% endif %}

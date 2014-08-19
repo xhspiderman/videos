@@ -1,31 +1,41 @@
 # core/views.py
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.contrib.auth.forms import UserCreationForm
+from django.core.urlresolvers import reverse, reverse_lazy
+from django import forms
 
 from braces.views import LoginRequiredMixin, CsrfExemptMixin
 
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic import DetailView, CreateView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView, DeleteView
 
 # from videocore.mixins import CategoryListMixin, VideoListMixin, CreateVideoMixin, PrevNextMixin
 from videocore.mixins import ChannelListMixin, VideoListMixin, PrevNextMixin, AllVideoMixin
 from .models import Video,  Channel, Post
 
+# forms
+class UserCreateForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ( "username", "email" )
+
 # Class Based Views
 class HomeView(LoginRequiredMixin, ChannelListMixin, AllVideoMixin,TemplateView):
 	template_name = 'home.html'
 
-# class UserCreateView(CreateView):
-#     model = User
-#     template_name = 'user_create.html'
-#     fields = ['username', 'password', 'email']
+class UserCreateView(CreateView):
 
-#     def get_success_url(self):
-#         return reverse('home') 
+    form_class = UserCreateForm
+    template_name = 'user_create.html'
+
+    def get_success_url(self):
+        return reverse('home') 
 
 class ChannelCreateView(ChannelListMixin, CreateView):
 	model = Channel
@@ -68,6 +78,21 @@ class VideoDetailView(ChannelListMixin,  VideoListMixin, PrevNextMixin, DetailVi
     model = Video
     context_object_name = 'video'
     template_name = 'video.html'
+
+class VideoUpdateView(UpdateView):
+    model = Video
+    context_object_name = 'video'
+    template_name = 'video_edit.html'
+    fields = ['title', 'description','video_upload',
+              'channel', 'is_active']
+
+def video_delete(request, pk, template_name='video_delete.html'):
+    video = get_object_or_404(Video, pk=pk)    
+    if request.method=='POST':
+        video.delete()
+        return redirect('home')
+    return render(request, template_name, {'video':video})
+
 
 # Save Post
 def savePost(request):

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block contentwrap %}
+<br>
+<br>
+<br>
+{% if user == video.creator %}
+<form action="" method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ video }}"?</p>
+    <input type="submit" value="Confirm" />
+</form>
+{% else %}
+<p class='text-danger'> Please Login as {{video.creator}} </p>
+{% endif %}
+<!-- Modal Experiment -->
+
+{% endblock contentwrap %}
+{% block more_javascript %} 
+<script type="text/javascript"> 
+   var categoryID = "{{category.id}}";
+</script>
+<script src="{% static "js/video_create.js" %}"></script>
+
+{% endblock more_javascript %}
