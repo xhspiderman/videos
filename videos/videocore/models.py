@@ -42,7 +42,7 @@ class Video(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
-    posts = models.ForeignKey(Post, null=True, blank=True)
+    posts = models.ManyToManyField(Post, null=True, blank=True)
     creator = models.ForeignKey(User, blank=True, null=True)
 
     def get_siblings(self):

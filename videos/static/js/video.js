@@ -24,11 +24,13 @@ $(document).ready(function(){
 	$("#sendPost").click(function() {
         // Send Post URL
 		var postURL = $(this).val()
+		console.log(postURL)
 		//Post textarea is not empty 
 		if ($('#postTextarea').val().trim()){
 			var input_string = $("#postTextarea").val()
 			var csrf = $("input[name='csrfmiddlewaretoken']").val()
 			var videoid = $('#videoID').val()
+			console.log("clicked")
 			$.ajax({
 				url : postURL,
 				type : "POST",
