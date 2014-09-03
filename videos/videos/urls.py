@@ -25,4 +25,4 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),
     url(r'^register/$',  UserCreateView.as_view(), name='create_user'),
     url(r'^$', HomeView.as_view(), name='home'),
-)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+)+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)#comment this if for production media serving

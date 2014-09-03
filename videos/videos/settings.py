@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
+print BASE_DIR
+SITE_HOST = '127.0.0.1:8000'
+DOC_ROOT = ''
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -64,6 +66,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'snippetspydb'),
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -96,13 +102,14 @@ ANONYMOUS_USER_ID = -1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(DOC_ROOT, '../static/videos')
+STATIC_URL = os.path.join(SITE_HOST,'/static/videos/')
 # Added by Hao
 PROJECT_ROOT = os.path.join(os.path.dirname(__file__), '..') #every dot represent the location of the folder so when you try to delete one dot, the path will be change
 SITE_ROOT = PROJECT_ROOT
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(SITE_ROOT, 'media') 
+MEDIA_ROOT = os.path.join(DOC_ROOT, 'media/videos/')
+# MEDIA_URL = os.path.join(SITE_HOST, 'media/videos/') # For production media serving
+MEDIA_URL ='/media/' # For test media serving
 #Added by Hao
 
 STATICFILES_DIRS = (

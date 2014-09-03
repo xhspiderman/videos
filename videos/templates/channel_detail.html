@@ -3,8 +3,9 @@
 
 
 {% block contentwrap %}
-
-<h2 class="sub-header">Videos in {{channel.title}}</h2>
+<br>
+<br>
+<h2 class="sub-header text-muted">Videos in {{channel.title}}</h2>
 
 	{% for video in channel.get_channel_videos %}
 	        {% with video.id|slugify as videoID %}
@@ -19,6 +20,21 @@
             <div class='col-xs-2 children text-center pointerDiv' style='opacity:0.1;'> 
                 {% if next %} <i class="fa fa-angle-right fa-5x nextTrigger" style='cursor:pointer;' data-nexturl="{% url 'video' next.id %}"></i>{% endif %}
             </div>
+	</div>
+	<div class='row'>
+	<div class='col-xs-8 col-xs-offset-2'>
+		    {% with video.get_channels as videoChannels %}
+			{% if videoChannels %}
+	            <span>&nbsp;&nbsp;</span>
+	            {% for singleChannel in videoChannels %}
+	                <span class="text-muted"># <a class='text-muted' href="{{singleChannel.get_absolute_url}}">{{singleChannel.title}}</a></span>
+	            {% endfor %}
+	        {% endif %}
+	        {% endwith %}
+         <!--    <span class="fb-share-button" data-href="{{video.get_absolute_url}}" data-width="250" data-type="button"></span>
+        	<span style="position:relative;top:5px;"><a href="https://twitter.com/share" class="twitter-share-button" data-count="none" data-url="{{video.get_absolute_url}}" data-text="{{ video.title }}">Tweet</a></span> -->
+        	<a class="btn btn-xs btn-default"  style="width:55px;height:20px;color:#999;"  href="{{video.get_absolute_url|add:"#postTextarea"}}"><i class="fa fa-comment"></i></a>
+    </div>
 	</div>
             
 			<script>
