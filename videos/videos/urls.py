@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf.urls.static import static
 from django.conf import settings 
 from django.contrib import admin
+import allauth
 admin.autodiscover()
 
 # from videocore.views import HomeView, CategoryIndexView, CategoryCreateView, ChannelCreateView, ChannelAddView, VideoCreateView, VideoDetailView, savePost
@@ -21,8 +22,9 @@ urlpatterns = patterns('',
     url(r'^post/save/$',savePost, name='save_post'),
     
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),
-    url(r'^register/$',  UserCreateView.as_view(), name='create_user'),
+    # url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
+    # url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),
+    # url(r'^register/$',  UserCreateView.as_view(), name='create_user'),
+    url(r'^accounts/', include('allauth.urls')),
     url(r'^$', HomeView.as_view(), name='home'),
 )+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)#comment this if for production media serving

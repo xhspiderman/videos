@@ -41,8 +41,42 @@ INSTALLED_APPS = (
     'videocore',
 
     'crispy_forms',
-    'guardian',
+    # 'guardian',
     'south',
+
+    # The Django sites framework is required
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # ... include the providers you want to enable:
+    # 'allauth.socialaccount.providers.amazon',
+    # 'allauth.socialaccount.providers.angellist',
+    # 'allauth.socialaccount.providers.bitbucket',
+    # 'allauth.socialaccount.providers.bitly',
+    # 'allauth.socialaccount.providers.coinbase',
+    # 'allauth.socialaccount.providers.dropbox',
+    'allauth.socialaccount.providers.facebook',
+    # 'allauth.socialaccount.providers.flickr',
+    # 'allauth.socialaccount.providers.feedly',
+    # 'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.hubic',
+    # 'allauth.socialaccount.providers.instagram',
+    # 'allauth.socialaccount.providers.linkedin',
+    # 'allauth.socialaccount.providers.linkedin_oauth2',
+    # 'allauth.socialaccount.providers.openid',
+    # 'allauth.socialaccount.providers.persona',
+    # 'allauth.socialaccount.providers.soundcloud',
+    # 'allauth.socialaccount.providers.stackexchange',
+    # 'allauth.socialaccount.providers.tumblr',
+    # 'allauth.socialaccount.providers.twitch',
+    # 'allauth.socialaccount.providers.twitter',
+    # 'allauth.socialaccount.providers.vimeo',
+    # 'allauth.socialaccount.providers.vk',
+    # 'allauth.socialaccount.providers.weibo',
+    # 'allauth.socialaccount.providers.xing',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -93,8 +127,11 @@ LOGIN_REDIRECT_URL = '/'
 REDIRECT_FIELD_NAME = 'home'
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'guardian.backends.ObjectPermissionBackend',
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # 'guardian.backends.ObjectPermissionBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 ANONYMOUS_USER_ID = -1
@@ -121,3 +158,53 @@ TEMPLATE_DIRS = (
 )
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+# settings for django allauth
+TEMPLATE_CONTEXT_PROCESSORS = (
+    # Required by django admin
+    'django.contrib.auth.context_processors.auth',
+    # Required by allauth template tags
+    "django.core.context_processors.request",
+    # allauth specific context processors
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
+)
+
+SOCIALACCOUNT_PROVIDERS =  \
+{
+    'facebook':
+    { 'SCOPE': ['email'],
+      'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+      'METHOD': 'oauth2',
+      'LOCALE_FUNC': lambda request: 'en-US',
+    },
+}
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_SUBJECT_PREFIX = '[q4ts]'
+ACCOUNT_PASSWORD_MIN_LENGTH = 6
+
+
+
+SITE_ID = 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
