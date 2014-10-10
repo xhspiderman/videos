@@ -92,7 +92,9 @@
 
 {% endblock contentwrap %}
 {% block stylesheets %} 
-<script src="http://jwpsrv.com/library/RJueXGxbEeOB1SIACi0I_Q.js"></script>
+<!-- <script src="http://jwpsrv.com/library/RJueXGxbEeOB1SIACi0I_Q.js"></script> -->
+<script src="{% static "jwplayer/jwplayer.js" %}"></script>
+<script>jwplayer.key="9rJAZnz41DjzOpAM7RCMb6KmS8fknVLmPOKFKw==";</script>
 <script src="{% static "js/jquery-ui.js" %}"></script>
 <script src="{% static "js/jquery-ui-scrollable.js" %}"></script>
 <script src="{% static "js/home.js" %}"></script>

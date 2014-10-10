@@ -13,7 +13,7 @@
 {% endif %}
 <!-- <li> -->
   <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}} btn btn-primary btn-sm pull-right" 
-     href="{% provider_login_url provider.id process=process %}" style='margin-right:1px;'>{% if provider.name = 'Google' %}<i class="fa fa-google fa-lg"></i>{% elif provider.name = 'Facebook' %} <i class="fa fa-facebook fa-lg"></i>{% endif %} &nbsp;Login in with {{provider.name}}</a>
+     href="{% provider_login_url provider.id process=process %}" style='margin-right:1px;'>{% if provider.name = 'Google' %}<i class="fa fa-google fa-lg"></i>{% elif provider.name = 'Facebook' %} <i class="fa fa-facebook fa-lg"></i>{% endif %} &nbsp;Login with {{provider.name}}</a>
 <!-- </li> -->
 {% endfor %}
 

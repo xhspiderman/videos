@@ -29,13 +29,15 @@
         skin:"{% static "jwplayer-skins/five.xml" %}",
         aspectratio: "16:9"
     });
-    var initialPause = 1
-    jwplayer('myElement').onTime(function(time){
-        if(initialPause==1){
-            jwplayer('myElement').pause()
-            initialPause =0
-        }
-    })
+    // should be uncommented
+    // var initialPause = 1
+    // jwplayer('myElement').onTime(function(time){
+    //     if(initialPause==1){
+    //         jwplayer('myElement').pause()
+    //         initialPause =0
+    //     }
+    // })
+    // should be uncommented
     // var initialPause = 1
     // jwplayer('myElement').onPlay(function(){
     //    if(initialPause==1){
@@ -154,7 +156,9 @@
 <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
 <script type="text/javascript">stLight.options({publisher: "1aeb7c02-bd17-41f9-89f5-c1e38ed0f07b", doNotHash: true, doNotCopy: true, hashAddressBar: false});</script>
 <!-- sharing plugin -->
-<script src="http://jwpsrv.com/library/RJueXGxbEeOB1SIACi0I_Q.js"></script>
- <script src="{% static "js/video.js" %}"></script>
+<!-- <script src="http://jwpsrv.com/library/RJueXGxbEeOB1SIACi0I_Q.js"></script> -->
+​<script src="{% static "jwplayer/jwplayer.js" %}"></script>
+<script>jwplayer.key="9rJAZnz41DjzOpAM7RCMb6KmS8fknVLmPOKFKw==";</script>
+<script src="{% static "js/video.js" %}"></script>
 <link href="{% static "css/video.css" %}" rel="stylesheet">
 {% endblock stylesheets%}
