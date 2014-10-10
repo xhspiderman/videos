@@ -1,8 +1,13 @@
 Django==1.6.3
 South==0.8.4
+django-allauth==0.18.0
 django-braces==1.4.0
 django-crispy-forms==1.4.0
 django-guardian==1.2.0
+oauthlib==0.6.3
+python-openid==2.2.5
 pytz==2014.2
+requests==2.4.1
+requests-oauthlib==0.4.1
 six==1.6.1
 wsgiref==0.1.2
