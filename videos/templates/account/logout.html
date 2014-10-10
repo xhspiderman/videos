@@ -1,0 +1,56 @@
+{% extends "account/base.html" %}
+
+{% load url from future %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign Out" %}{% endblock %}
+
+{% block content %}
+
+{% comment %}
+<h1>{% trans "Sign Out" %}</h1>
+
+<p>{% trans 'Are you sure you want to sign out?' %}</p>
+
+<form method="post" action="{% url 'account_logout' %}">
+  {% csrf_token %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{redirect_field_name}}" value="{{redirect_field_value}}"/>
+  {% endif %}
+  <button type="submit">{% trans 'Sign Out' %}</button>
+</form>
+{% endcomment %}
+
+<div class="container">    
+        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
+            <div class="panel panel-info" >
+                    <div class="panel-heading">
+                        <div class="panel-title">Sign out for Videos</div>
+                    </div>     
+
+                    <div style="padding-top:10px" class="panel-body" >
+                            
+                        <!-- <form id="loginform" class="form-horizontal" role="form"> -->
+                        <form class="form-horizontal" method="POST" action="{% url 'account_logout' %}" role="form" style='margin-left:15px; margin-right:15px;'>
+                                  {% csrf_token %}
+								  {% if redirect_field_value %}
+								  <input type="hidden" name="{{redirect_field_name}}" value="{{redirect_field_value}}"/>
+								  {% endif %}
+                                <div style="" class="form-group">
+
+                                    <div class="controls text-center" style="width:100%;">
+                                      <h3 class='text-warning' style='padding-bottom:10px;'> Are you sure you want to sign out? </h3>
+                                      <button class="btn btn-success" type="submit">{% trans "Sign Out" %}</button>
+                                    </div>
+                                </div>   
+                            </form>     
+                        </div>                     
+                    </div>  
+        </div>
+</div> 
+
+
+
+
+
+{% endblock %}

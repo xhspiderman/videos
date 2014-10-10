@@ -173,16 +173,21 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 SOCIALACCOUNT_PROVIDERS =  \
 {
     'facebook':
-    { 'SCOPE': ['email'],
+    { 'SCOPE': ['email', 'publish_stream'],
       'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
       'METHOD': 'oauth2',
       'LOCALE_FUNC': lambda request: 'en-US',
+      'VERIFIED_EMAIL': True
     },
+    'google':
+        { 'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile', 'email'],
+          'AUTH_PARAMS': { 'access_type': 'online' } 
+        },
 }
 
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_EMAIL_SUBJECT_PREFIX = '[q4ts]'
 ACCOUNT_PASSWORD_MIN_LENGTH = 6
 

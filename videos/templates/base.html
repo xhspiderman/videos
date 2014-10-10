@@ -1,0 +1,51 @@
+{% load url from future %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block head_title %}{% endblock %}</title>
+     <!-- Bootstrap -->
+    <link href="{% static "bootstrap/dist/css/bootstrap.min.css" %}" rel="stylesheet">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="{% static "font-awesome/css/font-awesome.min.css" %}">
+      <script src="https://code.jquery.com/jquery.js"></script>
+    {% block extra_head %}
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+
+    {% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+      	{% for message in messages %}
+      	<li>{{message}}</li>
+      	{% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <!-- <div> -->
+      <!-- <strong>Menu:</strong> -->
+      <!-- <ul> -->
+      	<!-- {% if user.is_authenticated %} -->
+<!--       	<li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+      	<li><a href="{% url 'account_logout' %}">Sign Out</a></li> -->
+      	<!-- {% else %} -->
+      	<!-- <li><a href="{% url 'account_login' %}">Sign In</a></li> -->
+      	<!-- <li><a href="{% url 'account_signup' %}">Sign Up</a></li> -->
+      	<!-- {% endif %} -->
+
+    <!-- </div> -->
+    {% block content %}
+    {% endblock %}
+    {% endblock %}
+    {% block extra_body %}
+    {% endblock %}
+    <script src="{% static "bootstrap/dist/js/bootstrap.min.js" %}"></script>
+  </body>
+</html>
